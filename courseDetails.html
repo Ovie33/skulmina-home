@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="index.css" rel="stylesheet" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body class="bg-gray-300">
+    <!-- Navbar -->
+    <nav
+      class="grid grid-flow-col items-center bg-black px-4 md:px-10 lg:px-16 py-4"
+    >
+      <div class="text-white">Icon</div>
+      <div
+        class="flex bg-black text-white items-center relative rounded-xl px-3 py-2 md:w-[480px] border md:justify-self-end border-white"
+      >
+        <svg
+          class="absolute left-2"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 13 14"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M8.82264 10.3833C7.89957 11.0841 6.74835 11.5 5.5 11.5C2.46243 11.5 0 9.03757 0 6C0 2.96243 2.46243 0.5 5.5 0.5C8.53757 0.5 11 2.96243 11 6C11 7.24835 10.5841 8.39957 9.8833 9.32264L12.7803 12.2197C13.0732 12.5126 13.0732 12.9874 12.7803 13.2803C12.4874 13.5732 12.0126 13.5732 11.7197 13.2803L8.82264 10.3833ZM9.5 6C9.5 8.20914 7.70914 10 5.5 10C3.29086 10 1.5 8.20914 1.5 6C1.5 3.79086 3.29086 2 5.5 2C7.70914 2 9.5 3.79086 9.5 6Z"
+            fill="#ffffff"
+          />
+        </svg>
+        <input
+          type="search"
+          placeholder="search Courses"
+          class="relative ml-5 w-full outline-none text-sm font-semibold bg-inherit text-white"
+        />
+      </div>
+      <!-- hambuger menu for phone view -->
+      <div class="flex justify-end md:justify-center md:hidden w-full">
+        <div
+          x-data="{
+                open: false,
+                toggle() {
+                    if (this.open) {
+                        return this.close()
+                    }
+      
+                    this.$refs.button.focus()
+      
+                    this.open = true
+                },
+                close(focusAfter) {
+                    if (! this.open) return
+      
+                    this.open = false
+      
+                    focusAfter && focusAfter.focus()
+                }
+            }"
+          x-on:keydown.escape.prevent.stop="close($refs.button)"
+          x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+          x-id="['dropdown-button']"
+        >
+          <!-- Button -->
+          <button
+            x-ref="button"
+            x-on:click="toggle()"
+            :aria-expanded="open"
+            :aria-controls="$id('dropdown-button')"
+            type="button"
+            class=""
+          >
+            <!-- Heroicon: chevron-down -->
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_40_2)">
+                <path
+                  d="M20 17.5C20.3852 17.5002 20.7556 17.6486 21.0344 17.9144C21.3132 18.1802 21.479 18.5431 21.4975 18.9279C21.516 19.3127 21.3858 19.6898 21.1338 19.9812C20.8818 20.2726 20.5274 20.4558 20.144 20.493L20 20.5H4C3.61478 20.4998 3.24441 20.3514 2.96561 20.0856C2.68682 19.8198 2.52099 19.4569 2.50248 19.0721C2.48396 18.6873 2.61419 18.3102 2.86618 18.0188C3.11816 17.7274 3.47258 17.5442 3.856 17.507L4 17.5H20ZM20 10.5C20.3978 10.5 20.7794 10.658 21.0607 10.9393C21.342 11.2206 21.5 11.6022 21.5 12C21.5 12.3978 21.342 12.7794 21.0607 13.0607C20.7794 13.342 20.3978 13.5 20 13.5H4C3.60218 13.5 3.22064 13.342 2.93934 13.0607C2.65804 12.7794 2.5 12.3978 2.5 12C2.5 11.6022 2.65804 11.2206 2.93934 10.9393C3.22064 10.658 3.60218 10.5 4 10.5H20ZM20 3.5C20.3978 3.5 20.7794 3.65804 21.0607 3.93934C21.342 4.22064 21.5 4.60218 21.5 5C21.5 5.39782 21.342 5.77936 21.0607 6.06066C20.7794 6.34196 20.3978 6.5 20 6.5H4C3.60218 6.5 3.22064 6.34196 2.93934 6.06066C2.65804 5.77936 2.5 5.39782 2.5 5C2.5 4.60218 2.65804 4.22064 2.93934 3.93934C3.22064 3.65804 3.60218 3.5 4 3.5H20Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_40_2">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+          <!-- Panel -->
+          <div
+            x-ref="panel"
+            x-show="open"
+            x-transition.origin.top.left
+            x-on:click.outside="close($refs.button)"
+            :id="$id('dropdown-button')"
+            style="display: none"
+            class="absolute right-0 px-2 py-3 mt-5 w-[100vw] rounded-md bg-white shadow-md"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+            >
+              Home
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+            >
+              Courses
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+            >
+              About Us
+            </a>
+            <button
+              class="bg-blue-500 w-full text-white text-[13px] font-semibold transition-all ease-linear delay-75 px-6 py-2 rounded-md hover:bg-white hover:font-semibold hover:text-blue-500"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="hidden md:flex gap-7 items-center w-fit justify-self-end">
+        <ul class="text-white text-sm flex space-x-4">
+          <li><a href="/">Home</a></li>
+          <li><a href="#">Courses</a></li>
+          <li><a href="#">About Us</a></li>
+        </ul>
+        <button
+          class="bg-blue-500 text-white text-[13px] font-semibold transition-all ease-linear delay-75 px-6 py-2 rounded-md hover:bg-white hover:font-semibold hover:text-blue-500"
+        >
+          Get Started
+        </button>
+      </div>
+    </nav>
+    <!-- main -->
+    <main
+      class="flex items-center flex-col px-4 md:px-10 lg:px-16 py-8 prose m-auto max-w-7xl"
+    >
+      <p class="text-2xl font-bold md:text-4xl text-center mb-2">
+        Fundamentals of Web Development: Building Your Digital Playground
+      </p>
+      <p class="mb-4">
+        Tutored by:
+        <span class="font-semibold text-lg mr-2">Faculty Marvelous .E.</span>
+      </p>
+      <button
+        class="py-3 px-6 mb-8 bg-white rounded-md text-sm text-black hover:bg-blue-500 hover:text-white hover:font-bold transition-all ease-in delay-[5ms]"
+      >
+        Pay $300.00 to access this Course
+      </button>
+      <p class="text-base font-bold md:px-20">
+        Lesson overview :
+        <br />
+        <span
+          class="font-normal leading-7 text-base mt-3 px-2 inline-block w-3/4"
+        >
+          Embark on a transformative journey into the heart of web development
+          with our "Foundations of Web Development" lesson. This immersive
+          module is meticulously crafted to empower you with the fundamental
+          skills needed to shape the digital landscape. As you traverse this
+          educational landscape, you will delve deep into the key pillars that
+          support every successful web project.
+        </span>
+      </p>
+      <div class="w-full md:px-20">
+        <p class="text-base font-bold mb-4">Key Learning Objectives:</p>
+        <p class="text-base font-bold mb-3">
+          HTML Mastery:
+          <br />
+          <span class="font-normal leading-8 inline-block px-2">
+            1.Understand the core principles of Hypertext Markup Language
+            (HTML).<br />
+            2.Explore HTML tags, elements, and attributes to structure content
+            effectively. <br />
+            3.Gain hands-on experience in creating semantic and accessible web
+            pages.
+          </span>
+        </p>
+        <p class="text-base font-bold mb-3">
+          CSS Styling Techniques:
+          <br />
+          <span class="font-normal leading-8 inline-block px-2">
+            1.Dive into the world of Cascading Style Sheets (CSS) and its role
+            in visual design.<br />
+            2.Learn styling techniques, including selectors, properties, and
+            values. <br />
+            3.Master the art of responsive design, ensuring your creations adapt
+            seamlessly to various devices.
+          </span>
+        </p>
+        <p class="text-base font-bold mb-3">
+          Introduction to JavaScript:
+          <br />
+          <span class="font-normal leading-8 inline-block px-2">
+            1.Uncover the power of JavaScript and its role in making web pages
+            interactive.<br />
+            2.Grasp fundamental concepts such as variables, data types, and
+            operators. <br />
+            3.Apply JavaScript to manipulate the Document Object Model (DOM) for
+            dynamic content updates.
+          </span>
+        </p>
+        <p class="text-base font-bold mb-3">
+          Responsive Web Design:
+          <br />
+          <span class="font-normal leading-8 inline-block px-2">
+            1.Explore the principles of responsive web design for a consistent
+            user experience across devices.<br />
+            2.Implement media queries and flexible grids to create adaptive
+            layouts. <br />
+            3.Enhance your projects with responsive images and optimized content
+            for diverse screen sizes.
+          </span>
+        </p>
+        <p class="text-base font-bold mb-3">
+          Version Control with Git:
+          <br />
+          <span class="font-normal leading-8 inline-block px-2">
+            1.Navigate the world of version control with Git.<br />
+            2.Learn to create repositories, track changes, and collaborate
+            seamlessly with team members. <br />
+            3.Understand branching and merging strategies to maintain a clean
+            and efficient project history.
+          </span>
+        </p>
+      </div>
+      <p class="text-base font-bold md:px-20 mb-3">
+        Hands-On Projects:
+        <br />
+        <span
+          class="font-normal leading-7 text-base mt-2 inline-block w-3/4 px-2"
+        >
+          Apply your knowledge through engaging hands-on projects that reinforce
+          each module's concepts. Develop a personal portfolio webpage that
+          showcases your evolving skills, and craft a responsive blog layout to
+          demonstrate your proficiency in applying responsive design principles.
+        </span>
+      </p>
+      <p class="text-base font-bold md:px-20">
+        Interactive Learning Environment:
+        <br />
+        <span
+          class="font-normal leading-7 text-base mt-2 inline-block md:w-3/4 px-2"
+        >
+          Immerse yourself in our interactive learning environment, where
+          quizzes, coding challenges, and peer discussions elevate your
+          understanding of web development fundamentals. Engage with instructors
+          and fellow learners, creating a collaborative space where questions
+          are encouraged, and discoveries are celebrated.
+          <br />
+          Embark on this educational odyssey, where the foundations you build
+          today pave the way for the digital masterpieces you'll create
+          tomorrow. Join us as we unlock the secrets of web development, one
+          comprehensive lesson at a time.
+        </span>
+      </p>
+    </main>
+  </body>
+</html>

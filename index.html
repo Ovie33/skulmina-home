@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="index.css" rel="stylesheet" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body class="overflow-x-hidden bg-gray-50 relative">
+    <!-- navbar -->
+    <nav
+      class="px-4 py-2 grid grid-flow-col items-center bg-transparent md:px-10 md:py-4 lg:px-16 absolute top-0 z-50 w-full"
+    >
+      <div class="text-white">Icon</div>
+      <div
+        class="flex bg-transparent text-white items-center relative rounded-xl px-3 py-2 md:w-[480px] border md:justify-self-end border-white"
+      >
+        <svg
+          class="absolute left-4"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 13 14"
+          fill="none"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M8.82264 10.3833C7.89957 11.0841 6.74835 11.5 5.5 11.5C2.46243 11.5 0 9.03757 0 6C0 2.96243 2.46243 0.5 5.5 0.5C8.53757 0.5 11 2.96243 11 6C11 7.24835 10.5841 8.39957 9.8833 9.32264L12.7803 12.2197C13.0732 12.5126 13.0732 12.9874 12.7803 13.2803C12.4874 13.5732 12.0126 13.5732 11.7197 13.2803L8.82264 10.3833ZM9.5 6C9.5 8.20914 7.70914 10 5.5 10C3.29086 10 1.5 8.20914 1.5 6C1.5 3.79086 3.29086 2 5.5 2C7.70914 2 9.5 3.79086 9.5 6Z"
+            fill="#ffffff"
+          />
+        </svg>
+        <input
+          type="search"
+          placeholder="search Courses"
+          class="relative ml-7 w-full outline-none text-sm font-semibold bg-inherit text-white"
+        />
+      </div>
+      <!-- hambuger menu for phone view -->
+      <div class="flex justify-end md:justify-center md:hidden w-full">
+        <div
+          x-data="{
+          open: false,
+          toggle() {
+              if (this.open) {
+                  return this.close()
+              }
+
+              this.$refs.button.focus()
+
+              this.open = true
+          },
+          close(focusAfter) {
+              if (! this.open) return
+
+              this.open = false
+
+              focusAfter && focusAfter.focus()
+          }
+      }"
+          x-on:keydown.escape.prevent.stop="close($refs.button)"
+          x-on:focusin.window="! $refs.panel.contains($event.target) && close()"
+          x-id="['dropdown-button']"
+        >
+          <!-- Button -->
+          <button
+            x-ref="button"
+            x-on:click="toggle()"
+            :aria-expanded="open"
+            :aria-controls="$id('dropdown-button')"
+            type="button"
+            class=""
+          >
+            <!-- Heroicon: chevron-down -->
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_40_2)">
+                <path
+                  d="M20 17.5C20.3852 17.5002 20.7556 17.6486 21.0344 17.9144C21.3132 18.1802 21.479 18.5431 21.4975 18.9279C21.516 19.3127 21.3858 19.6898 21.1338 19.9812C20.8818 20.2726 20.5274 20.4558 20.144 20.493L20 20.5H4C3.61478 20.4998 3.24441 20.3514 2.96561 20.0856C2.68682 19.8198 2.52099 19.4569 2.50248 19.0721C2.48396 18.6873 2.61419 18.3102 2.86618 18.0188C3.11816 17.7274 3.47258 17.5442 3.856 17.507L4 17.5H20ZM20 10.5C20.3978 10.5 20.7794 10.658 21.0607 10.9393C21.342 11.2206 21.5 11.6022 21.5 12C21.5 12.3978 21.342 12.7794 21.0607 13.0607C20.7794 13.342 20.3978 13.5 20 13.5H4C3.60218 13.5 3.22064 13.342 2.93934 13.0607C2.65804 12.7794 2.5 12.3978 2.5 12C2.5 11.6022 2.65804 11.2206 2.93934 10.9393C3.22064 10.658 3.60218 10.5 4 10.5H20ZM20 3.5C20.3978 3.5 20.7794 3.65804 21.0607 3.93934C21.342 4.22064 21.5 4.60218 21.5 5C21.5 5.39782 21.342 5.77936 21.0607 6.06066C20.7794 6.34196 20.3978 6.5 20 6.5H4C3.60218 6.5 3.22064 6.34196 2.93934 6.06066C2.65804 5.77936 2.5 5.39782 2.5 5C2.5 4.60218 2.65804 4.22064 2.93934 3.93934C3.22064 3.65804 3.60218 3.5 4 3.5H20Z"
+                  fill="white"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_40_2">
+                  <rect width="24" height="24" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+          <!-- Panel -->
+          <div
+            x-ref="panel"
+            x-show="open"
+            x-transition.origin.top.left
+            x-on:click.outside="close($refs.button)"
+            :id="$id('dropdown-button')"
+            style="display: none"
+            class="absolute right-0 px-2 py-3 mt-5 w-[100vw] rounded-md bg-white shadow-md"
+          >
+            <a
+              href="#"
+              class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+            >
+              Home
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+            >
+              Courses
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-2 w-full first-of-type:rounded-t-md last-of-type:rounded-b-md py-2.5 text-left text-sm hover:bg-gray-50 disabled:text-gray-500"
+            >
+              About Us
+            </a>
+            <button
+              class="bg-blue-500 w-full text-white text-[13px] font-semibold transition-all ease-linear delay-75 px-6 py-2 rounded-md hover:bg-white hover:font-semibold hover:text-blue-500"
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- tablet or wide screen options  -->
+      <div class="hidden md:flex gap-7 items-center w-fit justify-self-end">
+        <ul class="text-white text-sm flex space-x-6">
+          <li>
+            <a href="/" class="text-blue-500 font-bold">Home</a>
+          </li>
+          <li><a href="#">Courses</a></li>
+          <li><a href="#">About Us</a></li>
+        </ul>
+        <button
+          class="bg-blue-500 text-white text-[13px] font-semibold transition-all ease-linear delay-75 px-6 py-2 rounded-md hover:bg-white hover:font-semibold hover:text-blue-500"
+        >
+          Get Started
+        </button>
+      </div>
+    </nav>
+    <main>
+      <!-- hero section -->
+      <section
+        class="flex z-30 flex-col items-center relative justify-center gap-4 text-center bg-[url('/public/background4.jpg')] bg-cover h-[600px] img"
+      >
+        <div class="bg-black z-10 absolute h-full opacity-70 w-[100vw]"></div>
+        <div class="md:max-w-[1250px] z-30 px-2">
+          <p
+            class="text-2xl md:text-[55px] md:leading-[55px] text-white font-bold mb-4"
+          >
+            Building the Web, One Developer at a Time:
+            <span class="text-blue-500">Skulmina</span>
+            <span id="type" class=""></span>
+          </p>
+          <p class="text-md font-medium md:px-32 text-white">
+            Elevate your web development skills with skulmina. Our expert-led
+            courses cover HTML, CSS, JavaScript, and more. Whether you're a
+            beginner or a pro, join our community for hands-on learning and stay
+            ahead in the dynamic world of web development. Start coding your
+            success with skulmina today!
+          </p>
+        </div>
+        <button
+          class="py-3 px-6 z-50 bg-white rounded-md text-sm hover:bg-blue-500 hover:text-white hover:font-bold transition-all ease-in delay-75"
+        >
+          <a href="/studentDashboard.html">Get access now</a>
+        </button>
+      </section>
+      <!-- why study with us -->
+      <section class="px-4 md:px-10 lg:px-24 py-12">
+        <h1 class="text-2xl text-center md:text-4xl font-bold mb-10 md:mb-12">
+          Why study with us
+        </h1>
+        <div
+          class="flex flex-col md:flex-wrap md:flex-row lg:flex-nowrap gap-3 justify-center"
+        >
+          <div
+            class="flex flex-col justify-center items-center md:mx-0 mx-auto w-fit max-w-[300px] py-8 bg-white shadow-xl rounded-xl"
+          >
+            <div class="p-5 mb-4 bg-blue-500 rounded-full flex items-center">
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_665_858)">
+                  <path
+                    d="M15.09 12.79C15.2171 12.6911 15.3184 12.5629 15.3853 12.4164C15.4522 12.2699 15.4827 12.1094 15.4742 11.9486C15.4658 11.7877 15.4186 11.6313 15.3368 11.4926C15.2549 11.354 15.1407 11.2371 15.004 11.152L15 5.33L14 6V11.15C13.8648 11.2351 13.752 11.3512 13.6709 11.4888C13.5898 11.6263 13.5427 11.7813 13.5337 11.9408C13.5247 12.1002 13.554 12.2595 13.6191 12.4053C13.6842 12.5511 13.7833 12.6793 13.908 12.779L13.53 13.281C13.1938 13.7087 13.0076 14.2351 13 14.779V16.001H13.815C14.0108 16.001 14.201 15.9357 14.3555 15.8154C14.51 15.6951 14.6199 15.5268 14.668 15.337L14.999 14.001V16.001H15.999V14.791C15.9914 14.2443 15.8037 13.7153 15.465 13.286L15.09 12.79ZM8 0L0 4L8 9L16 4L8 0Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M8 10L3 6.67004V8.38004C3 9.29004 5.94 12 8 12C10.06 12 13 9.29004 13 8.38004V6.67004L8 10Z"
+                    fill="white"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_665_858">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="text-center px-4">
+              <p class="font-semibold text-lg">Expert-Led Instruction</p>
+              <p class="text-sm">
+                Learn from industry experts who bring real-world insights to the
+                virtual classroom.
+              </p>
+            </div>
+          </div>
+          <div
+            class="mx-auto md:mx-0 flex flex-col justify-center items-center w-fit max-w-[300px] py-8 bg-white shadow-xl rounded-xl"
+          >
+            <div class="p-5 mb-4 bg-blue-500 rounded-full flex items-center">
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 32 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M26.6807 7.85803C26.5965 7.79045 26.4956 7.74702 26.3887 7.7324C26.2818 7.71778 26.1729 7.73252 26.0737 7.77503L16.4137 11.958C15.9937 12.141 15.4677 12.228 14.9277 12.228C14.1747 12.231 13.3957 12.056 12.8527 11.818C12.6872 11.7483 12.5296 11.6612 12.3827 11.558C12.4227 11.538 12.4727 11.516 12.5277 11.494L21.3137 7.69003L22.6237 8.25003V6.61303C22.6256 6.49629 22.6012 6.38061 22.5522 6.27464C22.5032 6.16867 22.4309 6.07513 22.3407 6.00103C22.2569 5.93352 22.1563 5.89012 22.0497 5.8755C21.9431 5.86088 21.8345 5.87558 21.7357 5.91803L12.0757 10.101C11.7777 10.221 11.5217 10.369 11.3057 10.584C11.0555 10.8308 10.9135 11.1667 10.9107 11.518C10.9107 11.528 10.9137 11.545 10.9137 11.545V26.275L10.9117 26.295C10.9117 26.299 10.9147 26.301 10.9147 26.305V26.321H10.9167C10.9367 26.836 11.1967 27.164 11.4447 27.396C12.2247 28.084 13.5347 28.469 14.9287 28.489C15.5887 28.489 16.2587 28.389 16.8787 28.123L26.5417 23.939C26.7967 23.829 26.9637 23.556 26.9637 23.247V8.47003C26.9652 8.35336 26.9406 8.23782 26.8916 8.13192C26.8426 8.02601 26.7706 7.93242 26.6807 7.85803ZM20.5537 5.05803C20.5367 4.83803 20.4457 4.62803 20.2837 4.50203C20.1995 4.43445 20.0986 4.39102 19.9917 4.3764C19.8848 4.36178 19.7759 4.37652 19.6767 4.41903L10.0167 8.60003C9.59667 8.78203 9.06967 8.87003 8.53067 8.87003C7.77767 8.87203 6.99867 8.69703 6.45567 8.45803C6.29003 8.3895 6.13242 8.30298 5.98567 8.20003C6.02567 8.18003 6.07567 8.15803 6.13067 8.13603L14.9177 4.33203L16.2277 4.89203V3.25703C16.2295 3.14022 16.2048 3.02452 16.1557 2.91855C16.1065 2.81258 16.034 2.71908 15.9437 2.64503C15.8597 2.57753 15.7589 2.53415 15.6522 2.51953C15.5454 2.50491 15.4367 2.5196 15.3377 2.56203L5.67767 6.74603C5.37967 6.86603 5.12467 7.01303 4.90767 7.22903C4.65791 7.47595 4.51623 7.81182 4.51367 8.16303C4.51367 8.17503 4.51667 8.19103 4.51667 8.19103V22.968H4.51867C4.53867 23.483 4.79867 23.811 5.04667 24.043C5.82667 24.731 7.13667 25.115 8.53167 25.135C8.91051 25.1328 9.28813 25.0919 9.65867 25.013V11.544C9.64867 10.844 9.92867 10.172 10.4207 9.68803C10.7615 9.35739 11.1665 9.1001 11.6107 8.93203L20.5537 5.05803Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+            <div class="text-center px-4">
+              <p class="font-semibold text-lg">Comprehensive Curriculum</p>
+              <p class="text-sm">
+                Dive into a comprehensive curriculum designed to cover every
+                facet of web development.
+              </p>
+            </div>
+          </div>
+          <div
+            class="md:mx-0 mx-auto flex flex-col justify-center items-center w-fit max-w-[300px] py-8 bg-white shadow-xl rounded-xl"
+          >
+            <div class="p-5 mb-4 bg-blue-500 rounded-full flex items-center">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17 21H12H7"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 21V17"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 17H3V5H21V17H12Z"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="text-center px-4">
+              <p class="font-semibold text-lg">Pratical Experience</p>
+              <p class="text-sm">
+                We believe in learning by doing. Our Projects and interactive
+                exercises provide practical experience.
+              </p>
+            </div>
+          </div>
+          <div
+            class="md:mx-0 mx-auto flex flex-col justify-center items-center w-fit max-w-[300px] py-8 bg-white shadow-xl rounded-xl"
+          >
+            <div class="p-5 mb-4 bg-blue-500 rounded-full flex items-center">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 19C2 20.7 3.3 22 5 22H19C20.7 22 22 20.7 22 19V11H2V19ZM19 4H17V3C17 2.4 16.6 2 16 2C15.4 2 15 2.4 15 3V4H9V3C9 2.4 8.6 2 8 2C7.4 2 7 2.4 7 3V4H5C3.3 4 2 5.3 2 7V9H22V7C22 5.3 20.7 4 19 4Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+            <div class="text-center px-4">
+              <p class="font-semibold text-lg">Flexible Learning</p>
+              <p class="text-sm">
+                Life is busy, and we understand that. Our flexible learning
+                options allow you to tailor your educational journey to your
+                schedule.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Featured Courses -->
+      <section class="px-3 md:px-10 lg:px-24 py-12">
+        <p class="text-2xl md:text-4xl text-center mb-12 font-bold">
+          Featured Courses
+        </p>
+        <div
+          class="flex flex-col items-center gap-4 md:flex-wrap md:flex-row md:justify-center lg:flex-row lg:flex-nowrap"
+        >
+          <div
+            class="flex flex-col border-gray-500 border w-fit gap-3 rounded-md shadow-md"
+          >
+            <div
+              class="bg-slate-500 h-[250px] w-[300px] bg-[url('/public/background2.jpg')] bg-cover"
+            ></div>
+            <div class="text-sm mx-2">
+              <p class="font-bold">Web Development Fundamentals</p>
+              <p>
+                Starting:
+                <span class="font-bold">20th January 2024</span>
+              </p>
+            </div>
+            <button
+              class="bg-slate-600 px-6 py-2 text-sm rounded-md text-white mx-2 mb-4"
+            >
+              <a href="/courseDetails.html">Enroll now</a>
+            </button>
+          </div>
+          <div
+            class="flex flex-col border-gray-500 border w-fit gap-3 rounded-md shadow-md"
+          >
+            <div
+              class="bg-slate-500 h-[250px] w-[300px] bg-[url('/public/background2.jpg')] bg-cover"
+            ></div>
+            <div class="text-sm mx-2">
+              <p class="font-bold">Web Development Fundamentals</p>
+              <p>
+                Starting:
+                <span class="font-bold">20th January 2024</span>
+              </p>
+            </div>
+            <button
+              class="bg-slate-600 px-6 py-2 text-sm rounded-md text-white mx-2 mb-4"
+            >
+              <a href="/courseDetails.html">Enroll now</a>
+            </button>
+          </div>
+          <div
+            class="flex flex-col border-gray-500 border w-fit gap-3 rounded-md shadow-md"
+          >
+            <div
+              class="bg-slate-500 h-[250px] w-[300px] bg-[url('/public/background2.jpg')] bg-cover"
+            ></div>
+            <div class="text-sm mx-2">
+              <p class="font-bold">Web Development Fundamentals</p>
+              <p>
+                Starting:
+                <span class="font-bold">20th January 2024</span>
+              </p>
+            </div>
+            <button
+              class="bg-slate-600 px-6 py-2 text-sm rounded-md text-white mx-2 mb-4"
+            >
+              <a href="/courseDetails.html">Enroll now</a>
+            </button>
+          </div>
+          <div
+            class="flex flex-col border-gray-500 border w-fit gap-3 rounded-md shadow-md"
+          >
+            <div
+              class="bg-slate-500 h-[250px] w-[300px] bg-[url('/public/background2.jpg')] bg-cover"
+            ></div>
+            <div class="text-sm mx-2">
+              <p class="font-bold">Web Development Fundamentals</p>
+              <p>
+                Starting:
+                <span class="font-bold">20th January 2024</span>
+              </p>
+            </div>
+            <button
+              class="bg-slate-600 px-6 py-2 text-sm rounded-md text-white mx-2 mb-4"
+            >
+              <a href="/courseDetails.html">Enroll now</a>
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- About us -->
+      <section
+        class="flex-col px-3 md:px-10 lg:px-32 pt-12 flex md:flex-row md:space-x-5 items-center justify-center"
+      >
+        <div class="h-fit md:mr-14">
+          <img src="/public/about.png" alt="about us" />
+        </div>
+        <div class="max-w-[600px] text-center">
+          <p class="text-2xl md:text-4xl font-bold mb-3">More about us</p>
+          <p class="font-light">
+            Welcome to Skulmina, where passion meets education in the dynamic
+            realm of web development. At Skulmina, we believe in the
+            transformative power of coding and the boundless possibilities it
+            unlocks. Our mission is to empower individuals with the knowledge
+            and skills needed to thrive in the ever-evolving digital landscape.
+          </p>
+        </div>
+      </section>
+      <!-- promo section -->
+      <section class="px-4 md:px-10 lg:px-24 py-12 flex">
+        <div
+          class="bg-[url('/public/promo.jpg')] rounded-xl shadow-xl gap-2 w-full h-[350px] bg-cover flex flex-col justify-center items-center text-center"
+        >
+          <p class="text-sm font-bold text-black">Limited offer !!!</p>
+          <p class="text-4xl font-extrabold text-black">
+            BUY TWO COURSES GET ONE FREE !!!
+          </p>
+          <button
+            class="bg-white py-2 text-sm text-blue-500 font-bold px-5 rounded-md w-fit"
+          >
+            Grab it now !!
+          </button>
+        </div>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer class="py-12 px-4 md:px-10 lg:px-24 bg-blue-500 text-sm text-white">
+      <p class="text-4xl font-bold mb-3">Contact Us</p>
+      <p class="text-lg font-bold mb-3">
+        Address:
+        <span class="text-sm font-light">
+          Along effurun sapele road, opposite keystone bank, effurun, warri,
+          Delta state,</span
+        >
+      </p>
+      <p class="text-lg font-bold mb-3">
+        Nigeria Phone: <span class="text-sm font-light">+2349155740873</span>
+      </p>
+      <p class="text-lg font-bold mb-3">
+        Email: <span class="text-sm font-light">support@rolomtech.com</span>
+      </p>
+      <p class="text-center text-gray-300">
+        Copyright © 2023 Rolom Tech | Powered by Rolom Tech.
+      </p>
+    </footer>
+    <!-- javascript for type js -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed("#type", {
+        strings: [
+          "Teaches the way.",
+          "Leads through the process.",
+          "Guides your journey.",
+        ],
+        typeSpeed: 100,
+        backSpeed: 50,
+        loop: true,
+      });
+    </script>
+  </body>
+</html>
